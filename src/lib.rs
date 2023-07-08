@@ -1,5 +1,4 @@
 #![feature(proc_macro_hygiene, decl_macro)]
-
 #[macro_use]
 extern crate rocket;
 
@@ -75,8 +74,8 @@ pub fn rocket() -> _ {
         .mount(
             "/api",
             routes![
-                // routes::solutions::get_solutions,
                 routes::url::post_url,
+                routes::url::get_url,
             ],
         )
         .attach(database::Db::fairing())

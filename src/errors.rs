@@ -3,34 +3,7 @@ use rocket::response::status;
 use rocket::serde::json::{json, Json};
 use validator::{Validate, ValidationError, ValidationErrors};
 
-// #[derive(Debug)]
-// pub struct Errors {
-//     errors: ValidationErrors,
-// }
-
-// impl<'r> Responder<'r, 'static> for Errors {
-//     fn respond_to(self, req: &'r Request<'_>) -> response::Result<'static> {
-//         use validator::ValidationErrorsKind::Field;
-
-//         let mut errors = json!({});
-//         for (field, field_errors) in self.errors.into_errors() {
-//             if let Field(field_errors) = field_errors {
-//                 errors[field] = field_errors
-//                     .into_iter()
-//                     .map(|field_error| field_error.code)
-//                     .collect();
-//             }
-//         }
-
-//         status::Custom(
-//             Status::UnprocessableEntity,
-//             Json(json!({ "errors": errors })),
-//         )
-//         .respond_to(req)
-//     }
-// }
-
-
+#[allow(dead_code)]
 #[derive(Debug)]
 pub enum Errors {
     Forbidden,
@@ -45,7 +18,6 @@ impl std::fmt::Display for Errors {
             Errors::Forbidden => write!(f, "Forbidden"),
             Errors::InternalServerError(ref message) => write!(f, "Internal server error: {}", message),
             Errors::BadGateway => write!(f, "Bad gateway"),
-            // Errors::ValidationErrors => write!(f, "Validation error"),
             Errors::ValidationErrors(ref err) => write!(f, "Validation error: {}", err),
         }
     }

@@ -5,7 +5,6 @@ use diesel::pg::PgConnection;
 use diesel::prelude::*;
 use chrono::{Local, NaiveDateTime};
 
-
 #[derive(Insertable)]
 #[diesel(table_name = url)]
 struct NewUrl<'a> {
@@ -55,13 +54,9 @@ pub fn get_next_id(conn: &mut PgConnection) -> Result<i32, diesel::result::Error
 }
 
 
-// pub fn find(conn: &mut PgConnection) -> Vec<SolutionJson> {
-//     let result = solutions::table
-//         .load::<Solution>(conn)
-//         .expect("Failed to load solutions");
-
-//     result
-//         .into_iter()
-//         .map(|solution| solution.attach())
-//         .collect()
-// }
+pub fn find(conn: &mut PgConnection, short_url: &str) -> Result<String, diesel::result::Error> {
+    let url: Url = url::table
+        .filter(url::short_url.eq(short_url))
+        .first::<Url>(conn)?;
+    return Ok(String::from(url.attach().long_url));
+}
