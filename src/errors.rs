@@ -76,7 +76,6 @@ impl FieldValidator {
         }
     }
 
-    /// Convenience method to trigger early returns with ? operator.
     pub fn check(self) -> Result<(), Errors> {
         if self.errors.is_empty() {
             Ok(())

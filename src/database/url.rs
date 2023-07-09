@@ -53,7 +53,6 @@ pub fn get_next_id(conn: &mut PgConnection) -> Result<i32, diesel::result::Error
     }
 }
 
-
 pub fn find(conn: &mut PgConnection, short_url: &str) -> Result<String, diesel::result::Error> {
     let url: Url = url::table
         .filter(url::short_url.eq(short_url))

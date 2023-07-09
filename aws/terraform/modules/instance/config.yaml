@@ -1,0 +1,30 @@
+package_update: true
+package_upgrade: true
+packages:
+  - curl
+  - ca-certificates
+  - docker
+  - unzip
+  - golang-go
+
+write_files:
+  - path: config.json
+    owner: root:root
+    permission: "0644"
+    content: |
+      {
+          "port": 8080,
+          "connection_string": "host=${hostname} user=${user} password=${password} dbname=${database} port=${port} sslmode=disable"
+      }
+
+runcmd:
+  - wget -O app.zip https://github.com/zlaval/go-rest/archive/refs/heads/master.zip
+  - unzip app.zip
+  - cp go-rest-master/* .
+  - sudo go build .
+  - sudo go run .
+  - systemctl start docker
+  - systemctl enable docker
+  - cd $HOME && cat test.txt
+  - docker pull kaikiatpoh/url-shortener
+  - docker run -d --name url-shortener kaikiatpoh/url-shortener
